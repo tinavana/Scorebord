@@ -2,68 +2,192 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Puntenteller</title>
   <style>
+    :root {
+      --green: #4CAF50;
+      --blue: #2196F3;
+      --purple: #9C27B0;
+      --red: #f44336;
+      --gray-light: #f5f5f5;
+      --gray-dark: #333;
+      --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
     body {
-      font-family: sans-serif;
-      text-align: center;
-      background: #f5f5f5;
-      padding: 2rem;
-    }
-    .player {
-      margin: 1.5rem;
+      font-family: var(--font-family);
+      background: var(--gray-light);
+      margin: 0;
       padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      color: var(--gray-dark);
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .container {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .player {
       background: white;
-      border-radius: 10px;
-      display: inline-block;
-      width: 220px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      border-radius: 12px;
+      padding: 1.5rem 1.2rem 2rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      flex: 1 1 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 280px;
     }
-    h2 {
-      margin-bottom: 0.5rem;
+
+    .player input.name-input {
+      font-size: 1.25rem;
+      font-weight: 600;
+      text-align: center;
+      border: 2px solid var(--gray-light);
+      border-radius: 8px;
+      padding: 0.3rem 0.5rem;
+      margin-bottom: 1rem;
+      width: 90%;
+      transition: border-color 0.3s;
     }
+    .player input.name-input:focus {
+      outline: none;
+      border-color: var(--blue);
+      background: #eef7ff;
+    }
+
     .score {
-      font-size: 2.5rem;
-      margin: 0.5rem 0;
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin: 0.5rem 0 1.2rem;
+      user-select: none;
+      color: var(--gray-dark);
     }
+
+    .buttons-row {
+      display: flex;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 1rem;
+      width: 100%;
+    }
+
     button {
-      margin: 0.3rem;
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
+      flex: 1 1 60px;
+      padding: 0.7rem 0;
+      font-size: 1.1rem;
+      font-weight: 600;
       border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .add10 { background-color: #4CAF50; color: white; }
-    .add50 { background-color: #2196F3; color: white; }
-    .add100 { background-color: #9C27B0; color: white; }
-    .reset {
-      margin-top: 1rem;
-      background: #f44336;
+      border-radius: 8px;
       color: white;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.25s;
+      min-width: 60px;
+    }
+    button:active {
+      transform: scale(0.95);
+    }
+
+    .add10 {
+      background-color: var(--green);
+    }
+    .add10:hover {
+      background-color: #45a049;
+    }
+
+    .add50 {
+      background-color: var(--blue);
+    }
+    .add50:hover {
+      background-color: #1976d2;
+    }
+
+    .add100 {
+      background-color: var(--purple);
+    }
+    .add100:hover {
+      background-color: #7b1fa2;
+    }
+
+    .reset {
+      background-color: var(--red);
+      width: 100%;
+      margin-top: auto;
+      padding: 0.7rem 0;
+    }
+    .reset:hover {
+      background-color: #d32f2f;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 1rem 0.5rem;
+      }
+      .container {
+        flex-direction: column;
+        max-width: 100%;
+      }
+      .player {
+        min-width: auto;
+        width: 100%;
+      }
+      .buttons-row {
+        gap: 0.5rem;
+      }
+      button {
+        font-size: 1rem;
+        min-width: 50px;
+      }
+      .score {
+        font-size: 3rem;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="player">
-    <h2>Speler 1</h2>
-    <div id="score1" class="score">0</div>
-    <button class="add10" onclick="addPoints(1, 10)">+10</button>
-    <button class="add50" onclick="addPoints(1, 50)">+50</button>
-    <button class="add100" onclick="addPoints(1, 100)">+100</button>
-    <br />
-    <button class="reset" onclick="resetPlayer(1)">Reset</button>
-  </div>
+  <h1>Puntenteller</h1>
 
-  <div class="player">
-    <h2>Speler 2</h2>
-    <div id="score2" class="score">0</div>
-    <button class="add10" onclick="addPoints(2, 10)">+10</button>
-    <button class="add50" onclick="addPoints(2, 50)">+50</button>
-    <button class="add100" onclick="addPoints(2, 100)">+100</button>
-    <br />
-    <button class="reset" onclick="resetPlayer(2)">Reset</button>
+  <div class="container">
+
+    <div class="player" id="player1">
+      <input type="text" class="name-input" id="name1" value="Speler 1" maxlength="15" />
+      <div class="score" id="score1">0</div>
+      <div class="buttons-row">
+        <button class="add10" onclick="addPoints(1, 10)">+10</button>
+        <button class="add50" onclick="addPoints(1, 50)">+50</button>
+        <button class="add100" onclick="addPoints(1, 100)">+100</button>
+      </div>
+      <button class="reset" onclick="resetPlayer(1)">Reset</button>
+    </div>
+
+    <div class="player" id="player2">
+      <input type="text" class="name-input" id="name2" value="Speler 2" maxlength="15" />
+      <div class="score" id="score2">0</div>
+      <div class="buttons-row">
+        <button class="add10" onclick="addPoints(2, 10)">+10</button>
+        <button class="add50" onclick="addPoints(2, 50)">+50</button>
+        <button class="add100" onclick="addPoints(2, 100)">+100</button>
+      </div>
+      <button class="reset" onclick="resetPlayer(2)">Reset</button>
+    </div>
+
   </div>
 
   <script>
